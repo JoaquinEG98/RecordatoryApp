@@ -10,6 +10,7 @@ namespace Helpers
     {
         IEnumerable<TEntity> GetAll();
         TEntity Get(int id);
+        Task<TEntity> GetAsync(int id);
         TEntity Add(TEntity data);
         Task<TEntity> AddAsync(TEntity data);
         TEntity Update(TEntity data);

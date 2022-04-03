@@ -1,4 +1,5 @@
-﻿using API.Interfaces;
+﻿using API.DTO;
+using API.Interfaces;
 using API.Request;
 using Helpers;
 using Models;
@@ -36,6 +37,20 @@ namespace API.Services
                 await _userService.Add(user);
 
                 return Response.Response.FillObject(null!, System.Net.HttpStatusCode.OK, "Usuario creado con éxito!");
+            }
+            catch (Exception ex)
+            {
+                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        public async Task<Response.Response> GetUser(int userId)
+        {
+            try
+            {
+                User user = await _userService.Get(userId);
+
+                return Response.Response.FillObject(UserDTO.FillObject(user), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {

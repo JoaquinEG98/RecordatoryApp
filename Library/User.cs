@@ -39,6 +39,11 @@ namespace Library
 
             return user;
         }
+
+        public async Task<Models.User> Get(int userId)
+        {
+            return await _unitOfWork.Users.GetAsync(userId);
+        }
         #endregion
 
         #region Tools

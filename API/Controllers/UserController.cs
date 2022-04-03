@@ -16,6 +16,16 @@ namespace API.Controllers
         }
         #endregion
 
+        #region GET Methods
+        [HttpGet]
+        [Route("api/{controller}/getuser/{userId}")]
+        public async Task<Response.Response> GetUser([FromRoute] int userId)
+        {
+            Response.Response response = await _userService.GetUser(userId);
+            return response;
+        }
+        #endregion
+
         #region POST Methods
         [HttpPost]
         [Route("api/{controller}/adduser")]
