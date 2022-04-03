@@ -57,6 +57,28 @@ namespace API.Services
                 return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        public async Task<Response.Response> UpdateUser(int userId, UserUpdateRequest userUpdateRequest)
+        {
+            try
+            {
+                User userGet = await _userService.Get(userId);
+
+                userGet.Email = userUpdateRequest.Email;
+                userGet.Password = userUpdateRequest.Password;
+                userGet.Name = userUpdateRequest.Name;
+                userGet.Lastname = userUpdateRequest.Lastname;
+                userGet.Confirmed = userUpdateRequest.Confirmed;
+                userGet.Blocked = userUpdateRequest.Blocked;
+
+                User userUpdate = _userService.Update(userGet);
+                return Response.Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
+            }
+            catch (Exception ex)
+            {
+                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
         #endregion
     }
 }
