@@ -10,6 +10,7 @@ namespace API.Services
     {
         #region Dependency injection
         private readonly Library.User _userService;
+        private readonly Helpers.LogSingleton _logger;
 
         public UserService(IUnitOfWork unitOfWork)
         {

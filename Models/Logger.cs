@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class Note
+    public class Logger
     {
         public int Id { get; set; }
         public string? Description { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? FinishDate { get; set; }
-        public bool Finished { get; set; }
+        public DateTime LogDate { get; set; }
         public virtual User? User { get; set; }
-        public virtual List? List { get; set; }
     }
 }

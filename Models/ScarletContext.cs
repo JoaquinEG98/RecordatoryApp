@@ -15,5 +15,6 @@ namespace Models
         public DbSet<User> User { get; set; } = null!;
         public DbSet<Note> Note { get; set; } = null!;
         public DbSet<List> List { get; set; } = null!;
+        public DbSet<Logger> Logger { get; set; } = null!;
     }
 }

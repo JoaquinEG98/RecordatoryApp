@@ -11,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ScarletContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("connectionstring"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("connectionstring"))
+           .UseLazyLoadingProxies();
 });
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

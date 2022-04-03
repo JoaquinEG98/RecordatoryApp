@@ -1,4 +1,5 @@
 ﻿using Helpers;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,15 @@ namespace Library
             ValidateNote(note);
 
             await _unitOfWork.Notes.AddAsync(note);
+
+            Logger logger = new Logger()
+            {
+                Description = "Creó una nota",
+                LogDate = DateTime.Now,
+                User = note.User,
+            };
+            LogSingleton.GetInstance().Add(_unitOfWork, logger);
+
             await _unitOfWork.SaveAsync();
 
             return note;
@@ -34,6 +44,15 @@ namespace Library
             ValidateNote(note);
 
             _unitOfWork.Notes.Update(note);
+
+            Logger logger = new Logger()
+            {
+                Description = "Editó una nota",
+                LogDate = DateTime.Now,
+                User = note.User,
+            };
+            LogSingleton.GetInstance().Add(_unitOfWork, logger);
+
             _unitOfWork.Save();
 
             return note;
@@ -41,13 +60,35 @@ namespace Library
 
         public async Task<Models.Note> Get(int noteId)
         {
-            return await _unitOfWork.Notes.GetAsync(noteId);
+            Models.Note note = await _unitOfWork.Notes.GetAsync(noteId);
+
+            Logger logger = new Logger()
+            {
+                Description = "Obtuvo una nota",
+                LogDate = DateTime.Now,
+                User = note.User
+            };
+            LogSingleton.GetInstance().Add(_unitOfWork, logger);
+            await _unitOfWork.SaveAsync();
+
+            return note;
         }
 
         public async Task<IEnumerable<Models.Note>> GetAll(int userId)
         {
-            IEnumerable<Models.Note> lista = await _unitOfWork.Notes.GetAllAsync();
-            return lista.Where(x => x.User!.Id == userId);
+            IEnumerable<Models.Note> list = await _unitOfWork.Notes.GetAllAsync();
+            IEnumerable<Models.Note> getAll = list.Where(x => x.User!.Id == userId);
+
+            Logger logger = new Logger()
+            {
+                Description = "Obtuvo todas sus notas",
+                LogDate = DateTime.Now,
+                User = getAll.FirstOrDefault()!.User,
+            };
+            LogSingleton.GetInstance().Add(_unitOfWork, logger);
+            await _unitOfWork.SaveAsync();
+
+            return getAll;
         }
         #endregion
 

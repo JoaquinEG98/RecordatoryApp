@@ -12,6 +12,7 @@ namespace Helpers
         public IRepository<User> Users { get; }
         public IRepository<Note> Notes { get; }
         public IRepository<List> Lists { get; }
+        public IRepository<Logger> Logs { get; }
 
         public void Save();
         public Task SaveAsync();    

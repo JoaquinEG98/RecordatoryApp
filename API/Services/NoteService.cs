@@ -68,10 +68,10 @@ namespace API.Services
 
                 if (notes == null) throw new Exception("Este usuario aún no tiene notas");
 
-                List<Note> notesDTO = new List<Note>();
+                List<NoteDTO> notesDTO = new List<NoteDTO>();
                 foreach (Note note in notes)
                 {
-                    notesDTO.Add(note);
+                    notesDTO.Add(NoteDTO.FillObject(note));
                 }    
 
                 return Response.Response.FillObject(notesDTO, System.Net.HttpStatusCode.OK, "OK");

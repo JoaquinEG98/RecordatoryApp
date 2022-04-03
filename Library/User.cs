@@ -1,4 +1,5 @@
 ﻿using Helpers;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,15 @@ namespace Library
             await _unitOfWork.Users.AddAsync(user);
             await _unitOfWork.SaveAsync();
 
+            Logger logger = new Logger()
+            {
+                Description = "Se registró",
+                LogDate = DateTime.Now,
+                User = user
+            };
+            LogSingleton.GetInstance().Add(_unitOfWork, logger);
+            await _unitOfWork.SaveAsync();
+
             return user;
         }
 
@@ -35,6 +45,15 @@ namespace Library
             ValidateUser(user);
 
             _unitOfWork.Users.Update(user);
+
+            Logger logger = new Logger()
+            {
+                Description = "Editó su usuario",
+                LogDate = DateTime.Now,
+                User = user
+            };
+            LogSingleton.GetInstance().Add(_unitOfWork, logger);
+
             _unitOfWork.Save();
 
             return user;

@@ -13,6 +13,7 @@ namespace Helpers
         private IRepository<User>? _users;
         private IRepository<Note>? _notes;
         private IRepository<List>? _lists;
+        private IRepository<Logger>? _logs;
 
         public UnitOfWork(ScarletContext context)
         {
@@ -48,6 +49,15 @@ namespace Helpers
             }
         }
 
+        public IRepository<Logger> Logs
+        {
+            get
+            {
+                return _logs == null ?
+                    _logs = new Repository<Logger>(_context) :
+                    _logs;
+            }
+        }
 
         public void Save()
         {
