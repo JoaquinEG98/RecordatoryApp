@@ -14,9 +14,11 @@ builder.Services.AddDbContext<RecordatorioAppContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("connectionstring"));
 });
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<INoteService, NoteService>();
 
 var app = builder.Build();
 

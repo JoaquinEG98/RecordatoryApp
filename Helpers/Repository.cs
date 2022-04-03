@@ -63,6 +63,11 @@ namespace Helpers
             return _dbSet.ToList();
         }
 
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            return await _dbSet.ToListAsync();
+        }
+
         public void Save()
         {
             _context.SaveChanges();

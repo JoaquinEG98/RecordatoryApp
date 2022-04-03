@@ -13,6 +13,7 @@ namespace Models
         public DateTime StartDate { get; set; }
         public DateTime? FinishDate { get; set; }
         public bool Finished { get; set; }
+        public User? User { get; set; }
         public List? List { get; set; }
     }
 }
