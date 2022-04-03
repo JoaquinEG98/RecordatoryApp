@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<RecordatorioAppContext>(options =>
+builder.Services.AddDbContext<ScarletContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("connectionstring"));
 });

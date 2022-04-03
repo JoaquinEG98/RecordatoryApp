@@ -9,12 +9,12 @@ namespace Helpers
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private RecordatorioAppContext _context;
+        private ScarletContext _context;
         private IRepository<User>? _users;
         private IRepository<Note>? _notes;
         private IRepository<List>? _lists;
 
-        public UnitOfWork(RecordatorioAppContext context)
+        public UnitOfWork(ScarletContext context)
         {
             _context = context;
         }

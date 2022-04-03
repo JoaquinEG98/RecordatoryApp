@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Models
 {
-    public partial class RecordatorioAppContext : DbContext
+    public partial class ScarletContext : DbContext
     {
-        public RecordatorioAppContext(DbContextOptions<RecordatorioAppContext> options) : base(options) { }
+        public ScarletContext(DbContextOptions<ScarletContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 

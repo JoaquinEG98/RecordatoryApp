@@ -10,10 +10,10 @@ namespace Helpers
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private RecordatorioAppContext _context;
+        private ScarletContext _context;
         private DbSet<TEntity> _dbSet;
 
-        public Repository(RecordatorioAppContext context)
+        public Repository(ScarletContext context)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();
