@@ -79,6 +79,40 @@ namespace API.Services
                 return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        public async Task<Response.Response> BlockUser(int userId)
+        {
+            try
+            {
+                User userGet = await _userService.Get(userId);
+
+                userGet.Blocked = true;
+
+                User userUpdate = _userService.Update(userGet);
+                return Response.Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
+            }
+            catch (Exception ex)
+            {
+                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        public async Task<Response.Response> UnblockUser(int userId)
+        {
+            try
+            {
+                User userGet = await _userService.Get(userId);
+
+                userGet.Blocked = false;
+
+                User userUpdate = _userService.Update(userGet);
+                return Response.Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
+            }
+            catch (Exception ex)
+            {
+                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
         #endregion
     }
 }

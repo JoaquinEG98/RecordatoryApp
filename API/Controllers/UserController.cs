@@ -35,6 +35,22 @@ namespace API.Controllers
             Response.Response response = await _userService.UpdateUser(userId, userUpdateRequest);
             return response;
         }
+
+        [HttpPut]
+        [Route("api/{controller}/blockuser/{userId}")]
+        public async Task<Response.Response> BlockUser([FromRoute] int userId)
+        {
+            Response.Response response = await _userService.BlockUser(userId);
+            return response;
+        }
+
+        [HttpPut]
+        [Route("api/{controller}/unblockuser/{userId}")]
+        public async Task<Response.Response> UnblockUser([FromRoute] int userId)
+        {
+            Response.Response response = await _userService.UnblockUser(userId);
+            return response;
+        }
         #endregion
 
         #region POST Methods
