@@ -12,6 +12,7 @@ Patrones de diseño utilizados:
 •	Unit of Work
 •	Dependency Injection
 •	Data Transfer Object (DTO)
+•	Singleton
 
 Principios SOLID utilizados:
 •	Principio Nº1: S – Single Responsibility Principle (SRP)
