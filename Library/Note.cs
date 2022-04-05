@@ -77,18 +77,21 @@ namespace Library
         public async Task<IEnumerable<Models.Note>> GetAll(int userId)
         {
             IEnumerable<Models.Note> list = await _unitOfWork.Notes.GetAllAsync();
-            IEnumerable<Models.Note> getAll = list.Where(x => x.User!.Id == userId);
+            IEnumerable<Models.Note> getAll = list.Where(x => x.User!.Id == userId && x.Finished == false).OrderBy(f => f.FinishDate);
 
-            Logger logger = new Logger()
+            if (getAll.Count() > 0)
             {
-                Description = "Obtuvo todas sus notas",
-                LogDate = DateTime.Now,
-                User = getAll.FirstOrDefault()!.User,
-            };
-            LogSingleton.GetInstance().Add(_unitOfWork, logger);
-            await _unitOfWork.SaveAsync();
+                Logger logger = new Logger()
+                {
+                    Description = "Obtuvo todas sus notas",
+                    LogDate = DateTime.Now,
+                    User = getAll.FirstOrDefault()!.User,
+                };
+                LogSingleton.GetInstance().Add(_unitOfWork, logger);
+                await _unitOfWork.SaveAsync();
+            }
 
-            return getAll;
+            return getAll!;
         }
         #endregion
 

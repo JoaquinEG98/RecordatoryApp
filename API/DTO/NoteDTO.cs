@@ -4,6 +4,7 @@ namespace API.DTO
 {
     public class NoteDTO
     {
+        public int Id { get; set; }
         public string? Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? FinishDate { get; set; }
@@ -13,6 +14,7 @@ namespace API.DTO
         {
             return new NoteDTO()
             {
+                Id = note.Id,
                 Description = note.Description,
                 StartDate = note.StartDate,
                 FinishDate = note.FinishDate,
