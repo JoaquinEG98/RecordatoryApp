@@ -114,6 +114,20 @@ namespace API.Services
                 return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        public Response.Response LoginUser(string email, string password)
+        {
+            try
+            {
+                User userLogin = _userService.Login(email, password);
+
+                return Response.Response.FillObject(UserDTO.FillObject(userLogin), System.Net.HttpStatusCode.OK, "OK");
+            }
+            catch (Exception ex)
+            {
+                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
         #endregion
     }
 }

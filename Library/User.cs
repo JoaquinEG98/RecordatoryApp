@@ -63,6 +63,15 @@ namespace Library
         {
             return await _unitOfWork.Users.GetAsync(userId);
         }
+
+        public Models.User Login(string email, string password)
+        {
+            Models.User user = _unitOfWork.Users.GetAll().Where(x => x.Email == email).FirstOrDefault()!;
+            
+            ValidateLoginUser(user, password);
+
+            return user;
+        }
         #endregion
 
         #region Tools
@@ -98,6 +107,14 @@ namespace Library
             if (string.IsNullOrWhiteSpace(user.Lastname) || user.Lastname.Length < 2) throw new Exception("El apellido no puede estar vacio ni tener menos de 2 caracteres");
 
             // End of validations
+        }
+
+        private void ValidateLoginUser(Models.User user, string password)
+        {
+            if (user == null) throw new Exception("Ese usuario no existe.");
+            if (user.Blocked == true) throw new Exception("Ese usuario está bloqueado.");
+            if (user.Confirmed == false) throw new Exception("Ese usuario no está confirmado.");
+            if (user.Password != password) throw new Exception("La contraseña es incorrecta.");
         }
         #endregion
     }

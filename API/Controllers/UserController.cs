@@ -25,6 +25,14 @@ namespace API.Controllers
             Response.Response response = await _userService.GetUser(userId);
             return response;
         }
+
+        [HttpGet]
+        [Route("api/{controller}/login/{email}/{password}")]
+        public Response.Response Login([FromRoute] string email, string password)
+        {
+            Response.Response response = _userService.LoginUser(email, password);
+            return response;
+        }
         #endregion
 
         #region PUT Methods
