@@ -98,7 +98,8 @@ namespace Library
         #region Tools
         private void ValidateNote(Models.Note note)
         {
-            if (note.Description == null) throw new Exception("Se debe completar la descripción de la nota");
+            if (string.IsNullOrWhiteSpace(note.Description)) throw new Exception("Se debe completar la descripción de la nota");
+            if (note.FinishDate == null) throw new Exception("Se debe elegir una fecha de finalización");
         }
         #endregion
     }
