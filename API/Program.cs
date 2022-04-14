@@ -4,6 +4,7 @@ using Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Models;
 using System.Text;
 
@@ -43,11 +44,19 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<INoteService, NoteService>();
 builder.Services.AddScoped<TokenService>();
 
+AddSwagger(builder.Services);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Scarlet API V1");
+});
 
 app.UseAuthentication();
 
@@ -64,3 +73,43 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void AddSwagger(IServiceCollection services)
+{
+    services.AddSwaggerGen(options =>
+    {
+        var groupName = "v1";
+
+        options.SwaggerDoc(groupName, new OpenApiInfo
+        {
+            Title = $"Scarlet {groupName}",
+            Version = groupName,
+            Description = "Scarlet API",
+            Contact = new OpenApiContact
+            {
+                Name = "Scarlet Project",
+                Email = string.Empty,
+            }
+        });
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer xxxxxxxx\"",
+        });
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+        {
+            new OpenApiSecurityScheme {
+                Reference = new OpenApiReference {
+                    Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+    });
+}
