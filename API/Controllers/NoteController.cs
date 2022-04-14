@@ -1,5 +1,6 @@
 ﻿using API.Interfaces;
 using API.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -19,6 +20,7 @@ namespace API.Controllers
         #region GET Methods
         [HttpGet]
         [Route("api/{controller}/getnote/{noteId}")]
+        [Authorize]
         public async Task<Response.Response> GetNote([FromRoute] int noteId)
         {
             Response.Response response = await _noteService.GetNote(noteId);
@@ -27,6 +29,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("api/{controller}/getnotes/{userId}")]
+        [Authorize]
         public async Task<Response.Response> GetNotes([FromRoute] int userId)
         {
             Response.Response response = await _noteService.GetNotes(userId);
@@ -37,6 +40,7 @@ namespace API.Controllers
         #region PUT Methods
         [HttpPut]
         [Route("api/{controller}/updatenote/{noteId}")]
+        [Authorize]
         public async Task<Response.Response> UpdateNote([FromRoute] int noteId, [FromBody] NoteRequest noteRequest)
         {
             Response.Response response = await _noteService.UpdateNote(noteId, noteRequest);
@@ -45,6 +49,7 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("api/{controller}/finishnote/{noteId}")]
+        [Authorize]
         public async Task<Response.Response> FinishNote([FromRoute] int noteId)
         {
             Response.Response response = await _noteService.FinishNote(noteId);
@@ -53,6 +58,7 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("api/{controller}/unfinishnote/{noteId}")]
+        [Authorize]
         public async Task<Response.Response> UnfinishNote([FromRoute] int noteId)
         {
             Response.Response response = await _noteService.UnfinishNote(noteId);
@@ -63,6 +69,7 @@ namespace API.Controllers
         #region POST Methods
         [HttpPost]
         [Route("api/{controller}/addnote")]
+        [Authorize]
         public async Task<Response.Response> AddNote([FromBody] NoteRequest noteRequest)
         {
             Response.Response response = await _noteService.AddNote(noteRequest);

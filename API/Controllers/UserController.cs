@@ -1,5 +1,6 @@
 ﻿using API.Interfaces;
 using API.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
@@ -20,6 +21,7 @@ namespace API.Controllers
         #region GET Methods
         [HttpGet]
         [Route("api/{controller}/getuser/{userId}")]
+        [Authorize]
         public async Task<Response.Response> GetUser([FromRoute] int userId)
         {
             Response.Response response = await _userService.GetUser(userId);
@@ -38,6 +40,7 @@ namespace API.Controllers
         #region PUT Methods
         [HttpPut]
         [Route("api/{controller}/updateuser/{userId}")]
+        [Authorize]
         public async Task<Response.Response> UpdateUser([FromRoute] int userId, [FromBody] UserUpdateRequest userUpdateRequest)
         {
             Response.Response response = await _userService.UpdateUser(userId, userUpdateRequest);
@@ -46,6 +49,7 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("api/{controller}/blockuser/{userId}")]
+        [Authorize]
         public async Task<Response.Response> BlockUser([FromRoute] int userId)
         {
             Response.Response response = await _userService.BlockUser(userId);
@@ -54,6 +58,7 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("api/{controller}/unblockuser/{userId}")]
+        [Authorize]
         public async Task<Response.Response> UnblockUser([FromRoute] int userId)
         {
             Response.Response response = await _userService.UnblockUser(userId);

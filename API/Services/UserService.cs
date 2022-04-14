@@ -10,11 +10,12 @@ namespace API.Services
     {
         #region Dependency injection
         private readonly Library.User _userService;
-        private readonly Helpers.LogSingleton _logger;
+        private readonly TokenService _tokenService;
 
-        public UserService(IUnitOfWork unitOfWork)
+        public UserService(IUnitOfWork unitOfWork, TokenService tokenService)
         {
             _userService = new Library.User(unitOfWork);
+            _tokenService = tokenService;
         }
         #endregion
 
@@ -119,9 +120,10 @@ namespace API.Services
         {
             try
             {
-                User userLogin = _userService.Login(email, password);
+                User userLogin = _userService.Login(email, password);                
+                string token = _tokenService.GenerateJWT(userLogin);
 
-                return Response.Response.FillObject(UserDTO.FillObject(userLogin), System.Net.HttpStatusCode.OK, "OK");
+                return Response.Response.FillObject(LoginDTO.FillObject(userLogin, token), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
