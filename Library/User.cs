@@ -40,7 +40,7 @@ namespace Library
             return user;
         }
 
-        public Models.User Update(Models.User user)
+        public async Task<Models.User> Update(Models.User user)
         {
             ValidateUser(user);
 
@@ -54,7 +54,7 @@ namespace Library
             };
             LogSingleton.GetInstance().Add(_unitOfWork, logger);
 
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
 
             return user;
         }

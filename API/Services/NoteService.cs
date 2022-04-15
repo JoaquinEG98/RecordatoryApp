@@ -91,7 +91,7 @@ namespace API.Services
                 noteGet.Description = note.Description;
                 noteGet.FinishDate = note.FinishDate;
 
-                Note noteUpdate = _noteService.Update(noteGet);
+                Note noteUpdate = await _noteService.Update(noteGet);
                 return Response.Response.FillObject(NoteDTO.FillObject(noteUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
@@ -108,7 +108,7 @@ namespace API.Services
 
                 noteGet.Finished = true;
 
-                Note noteUpdate = _noteService.Update(noteGet);
+                Note noteUpdate = await _noteService.Update(noteGet);
                 return Response.Response.FillObject(NoteDTO.FillObject(noteUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
@@ -125,7 +125,7 @@ namespace API.Services
 
                 noteGet.Finished = false;
 
-                Note noteUpdate = _noteService.Update(noteGet);
+                Note noteUpdate = await _noteService.Update(noteGet);
                 return Response.Response.FillObject(NoteDTO.FillObject(noteUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)

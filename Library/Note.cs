@@ -39,7 +39,7 @@ namespace Library
             return note;
         }
 
-        public Models.Note Update(Models.Note note)
+        public async Task <Models.Note> Update(Models.Note note)
         {
             ValidateNote(note);
 
@@ -53,7 +53,7 @@ namespace Library
             };
             LogSingleton.GetInstance().Add(_unitOfWork, logger);
 
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
 
             return note;
         }

@@ -28,10 +28,10 @@ namespace API.Services
 
                 User user = new User()
                 {
-                    Email = userRequest.Email,
-                    Password = userRequest.Password,
-                    Name = userRequest.Name,
-                    Lastname = userRequest.Lastname,
+                    Email = userRequest.Email!,
+                    Password = userRequest.Password!,
+                    Name = userRequest.Name!,
+                    Lastname = userRequest.Lastname!,
                     Blocked = false,
                     Confirmed = true
                 };
@@ -66,14 +66,14 @@ namespace API.Services
             {
                 User userGet = await _userService.Get(userId);
 
-                userGet.Email = userUpdateRequest.Email;
-                userGet.Password = userUpdateRequest.Password;
-                userGet.Name = userUpdateRequest.Name;
-                userGet.Lastname = userUpdateRequest.Lastname;
+                userGet.Email = userUpdateRequest.Email!;
+                userGet.Password = userUpdateRequest.Password!;
+                userGet.Name = userUpdateRequest.Name!;
+                userGet.Lastname = userUpdateRequest.Lastname!;
                 userGet.Confirmed = userUpdateRequest.Confirmed;
                 userGet.Blocked = userUpdateRequest.Blocked;
 
-                User userUpdate = _userService.Update(userGet);
+                User userUpdate = await _userService.Update(userGet);
                 return Response.Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
@@ -90,7 +90,7 @@ namespace API.Services
 
                 userGet.Blocked = true;
 
-                User userUpdate = _userService.Update(userGet);
+                User userUpdate = await _userService.Update(userGet);
                 return Response.Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
@@ -107,7 +107,7 @@ namespace API.Services
 
                 userGet.Blocked = false;
 
-                User userUpdate = _userService.Update(userGet);
+                User userUpdate = await _userService.Update(userGet);
                 return Response.Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
