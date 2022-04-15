@@ -13,10 +13,12 @@ namespace Library
     {
         #region Dependency injection
         private readonly IUnitOfWork _unitOfWork;
+        private readonly Encryption _encryption;
 
         public User(IUnitOfWork UnitOfWork)
         {
             _unitOfWork = UnitOfWork;
+            _encryption = new Encryption();
         }
         #endregion
 
@@ -24,6 +26,8 @@ namespace Library
         public async Task<Models.User> Add(Models.User user)
         {
             ValidateUser(user);
+
+            user.Password = _encryption.Hash(user.Password);
 
             await _unitOfWork.Users.AddAsync(user);
             await _unitOfWork.SaveAsync();
@@ -67,6 +71,8 @@ namespace Library
         public Models.User Login(string email, string password)
         {
             Models.User user = _unitOfWork.Users.GetAll().Where(x => x.Email == email).FirstOrDefault()!;
+
+            password = _encryption.Hash(password);
             
             ValidateLoginUser(user, password);
 
