@@ -1,6 +1,6 @@
-using API.Interfaces;
 using API.Services;
 using Helpers;
+using Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -33,15 +33,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ScarletContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("connectionstring"))
+    options.UseSqlServer(builder.Configuration.GetConnectionString("connectionstring"))
            .UseLazyLoadingProxies();
+    //options.UseNpgsql(builder.Configuration.GetConnectionString("connectionstring"))
+    //       .UseLazyLoadingProxies();
 });
 
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<IUser, UserService>();
+builder.Services.AddScoped<INote, NoteService>();
 builder.Services.AddScoped<TokenService>();
 
 AddSwagger(builder.Services);

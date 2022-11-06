@@ -1,6 +1,4 @@
-﻿using Models;
-
-namespace API.DTO
+﻿namespace Models.DTO
 {
     public class NoteDTO
     {

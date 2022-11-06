@@ -1,7 +1,8 @@
-﻿using API.Interfaces;
-using API.Request;
+﻿using Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models.Request;
+using Models.Response;
 
 namespace API.Controllers
 {
@@ -9,9 +10,9 @@ namespace API.Controllers
     public class NoteController
     {
         #region Dependency inversion
-        private readonly INoteService _noteService;
+        private readonly INote _noteService;
 
-        public NoteController(INoteService noteService)
+        public NoteController(INote noteService)
         {
             _noteService = noteService;
         }
@@ -21,18 +22,18 @@ namespace API.Controllers
         [HttpGet]
         [Route("api/{controller}/getnote/{noteId}")]
         [Authorize]
-        public async Task<Response.Response> GetNote([FromRoute] int noteId)
+        public async Task<Response> GetNote([FromRoute] int noteId)
         {
-            Response.Response response = await _noteService.GetNote(noteId);
+            Response response = await _noteService.GetNote(noteId);
             return response;
         }
 
         [HttpGet]
         [Route("api/{controller}/getnotes/{userId}")]
         [Authorize]
-        public async Task<Response.Response> GetNotes([FromRoute] int userId)
+        public async Task<Response> GetNotes([FromRoute] int userId)
         {
-            Response.Response response = await _noteService.GetNotes(userId);
+            Response response = await _noteService.GetNotes(userId);
             return response;
         }
         #endregion
@@ -41,27 +42,27 @@ namespace API.Controllers
         [HttpPut]
         [Route("api/{controller}/updatenote/{noteId}")]
         [Authorize]
-        public async Task<Response.Response> UpdateNote([FromRoute] int noteId, [FromBody] NoteRequest noteRequest)
+        public async Task<Response> UpdateNote([FromRoute] int noteId, [FromBody] NoteRequest noteRequest)
         {
-            Response.Response response = await _noteService.UpdateNote(noteId, noteRequest);
+            Response response = await _noteService.UpdateNote(noteId, noteRequest);
             return response;
         }
 
         [HttpPut]
         [Route("api/{controller}/finishnote/{noteId}")]
         [Authorize]
-        public async Task<Response.Response> FinishNote([FromRoute] int noteId)
+        public async Task<Response> FinishNote([FromRoute] int noteId)
         {
-            Response.Response response = await _noteService.FinishNote(noteId);
+            Response response = await _noteService.FinishNote(noteId);
             return response;
         }
 
         [HttpPut]
         [Route("api/{controller}/unfinishnote/{noteId}")]
         [Authorize]
-        public async Task<Response.Response> UnfinishNote([FromRoute] int noteId)
+        public async Task<Response> UnfinishNote([FromRoute] int noteId)
         {
-            Response.Response response = await _noteService.UnfinishNote(noteId);
+            Response response = await _noteService.UnfinishNote(noteId);
             return response;
         }
         #endregion
@@ -70,9 +71,9 @@ namespace API.Controllers
         [HttpPost]
         [Route("api/{controller}/addnote")]
         [Authorize]
-        public async Task<Response.Response> AddNote([FromBody] NoteRequest noteRequest)
+        public async Task<Response> AddNote([FromBody] NoteRequest noteRequest)
         {
-            Response.Response response = await _noteService.AddNote(noteRequest);
+            Response response = await _noteService.AddNote(noteRequest);
             return response;
         }
         #endregion

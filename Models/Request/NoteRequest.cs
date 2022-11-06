@@ -1,4 +1,4 @@
-﻿namespace API.Request
+﻿namespace Models.Request
 {
     public class NoteRequest
     {

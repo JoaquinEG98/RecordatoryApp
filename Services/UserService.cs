@@ -1,12 +1,13 @@
-﻿using API.DTO;
-using API.Interfaces;
-using API.Request;
-using Helpers;
+﻿using Helpers;
+using Interfaces;
 using Models;
+using Models.DTO;
+using Models.Request;
+using Models.Response;
 
 namespace API.Services
 {
-    public class UserService : IUserService
+    public class UserService : IUser
     {
         #region Dependency injection
         private readonly Library.User _userService;
@@ -20,7 +21,7 @@ namespace API.Services
         #endregion
 
         #region Methods
-        public async Task<Response.Response> AddUser(UserRequest userRequest)
+        public async Task<Response> AddUser(UserRequest userRequest)
         {
             try
             {
@@ -38,29 +39,29 @@ namespace API.Services
 
                 await _userService.Add(user);
 
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.OK, "Usuario creado con éxito!");
+                return Response.FillObject(null!, System.Net.HttpStatusCode.OK, "Usuario creado con éxito!");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        public async Task<Response.Response> GetUser(int userId)
+        public async Task<Response> GetUser(int userId)
         {
             try
             {
                 User user = await _userService.Get(userId);
 
-                return Response.Response.FillObject(UserDTO.FillObject(user), System.Net.HttpStatusCode.OK, "OK");
+                return Response.FillObject(UserDTO.FillObject(user), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        public async Task<Response.Response> UpdateUser(int userId, UserUpdateRequest userUpdateRequest)
+        public async Task<Response> UpdateUser(int userId, UserUpdateRequest userUpdateRequest)
         {
             try
             {
@@ -74,15 +75,15 @@ namespace API.Services
                 userGet.Blocked = userUpdateRequest.Blocked;
 
                 User userUpdate = await _userService.Update(userGet);
-                return Response.Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
+                return Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        public async Task<Response.Response> BlockUser(int userId)
+        public async Task<Response> BlockUser(int userId)
         {
             try
             {
@@ -91,15 +92,15 @@ namespace API.Services
                 userGet.Blocked = true;
 
                 User userUpdate = await _userService.Update(userGet);
-                return Response.Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
+                return Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        public async Task<Response.Response> UnblockUser(int userId)
+        public async Task<Response> UnblockUser(int userId)
         {
             try
             {
@@ -108,26 +109,26 @@ namespace API.Services
                 userGet.Blocked = false;
 
                 User userUpdate = await _userService.Update(userGet);
-                return Response.Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
+                return Response.FillObject(UserDTO.FillObject(userUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        public Response.Response LoginUser(string email, string password)
+        public Response LoginUser(string email, string password)
         {
             try
             {
                 User userLogin = _userService.Login(email, password);                
                 string token = _tokenService.GenerateJWT(userLogin);
 
-                return Response.Response.FillObject(LoginDTO.FillObject(userLogin, token), System.Net.HttpStatusCode.OK, "OK");
+                return Response.FillObject(LoginDTO.FillObject(userLogin, token), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
         #endregion

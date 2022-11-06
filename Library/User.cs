@@ -27,7 +27,7 @@ namespace Library
         {
             ValidateUser(user);
 
-            user.Password = _encryption.Hash(user.Password);
+            user.Password = _encryption.Hash(user.Password!);
 
             await _unitOfWork.Users.AddAsync(user);
             await _unitOfWork.SaveAsync();
@@ -106,7 +106,7 @@ namespace Library
         {
             // Validations
 
-            if (string.IsNullOrWhiteSpace(user.Email) || user.Name.Length < 2) throw new Exception("El email no puede estar vacio ni tener menos de 2 caracteres");
+            if (string.IsNullOrWhiteSpace(user.Email) || user.Name!.Length < 2) throw new Exception("El email no puede estar vacio ni tener menos de 2 caracteres");
             if (ValidateEmail(user.Email) == false) throw new Exception("El email no tiene el formato correcto.");
             if (string.IsNullOrWhiteSpace(user.Password) || user.Password.Length < 8) throw new Exception("La contraseña no puede estar vacia ni tener menos de 8 caracteres");
             if (string.IsNullOrWhiteSpace(user.Name) || user.Name.Length < 2) throw new Exception("El nombre no puede estar vacio ni tener menos de 2 caracteres");

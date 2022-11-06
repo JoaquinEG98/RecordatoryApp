@@ -52,7 +52,7 @@ namespace Helpers
 
         public async Task<TEntity> GetAsync(int id)
         {
-            TEntity data = await _dbSet.FindAsync(id)!;
+            TEntity? data = await _dbSet.FindAsync(id)!;
 
             if (data == null) throw new Exception("No se pudo encontrar nada con ese Id.");
             else return data;

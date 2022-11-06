@@ -1,8 +1,8 @@
-﻿using API.Interfaces;
-using API.Request;
+﻿using Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using Models.Request;
+using Models.Response;
 
 namespace API.Controllers
 {
@@ -10,9 +10,9 @@ namespace API.Controllers
     public class UserController
     {
         #region Dependency inversion
-        private readonly IUserService _userService;
+        private readonly IUser _userService;
 
-        public UserController(IUserService userService)
+        public UserController(IUser userService)
         {
             _userService = userService;
         }
@@ -22,17 +22,17 @@ namespace API.Controllers
         [HttpGet]
         [Route("api/{controller}/getuser/{userId}")]
         [Authorize]
-        public async Task<Response.Response> GetUser([FromRoute] int userId)
+        public async Task<Response> GetUser([FromRoute] int userId)
         {
-            Response.Response response = await _userService.GetUser(userId);
+            Response response = await _userService.GetUser(userId);
             return response;
         }
 
         [HttpGet]
         [Route("api/{controller}/login/{email}/{password}")]
-        public Response.Response Login([FromRoute] string email, string password)
+        public Response Login([FromRoute] string email, string password)
         {
-            Response.Response response = _userService.LoginUser(email, password);
+            Response response = _userService.LoginUser(email, password);
             return response;
         }
         #endregion
@@ -41,27 +41,27 @@ namespace API.Controllers
         [HttpPut]
         [Route("api/{controller}/updateuser/{userId}")]
         [Authorize]
-        public async Task<Response.Response> UpdateUser([FromRoute] int userId, [FromBody] UserUpdateRequest userUpdateRequest)
+        public async Task<Response> UpdateUser([FromRoute] int userId, [FromBody] UserUpdateRequest userUpdateRequest)
         {
-            Response.Response response = await _userService.UpdateUser(userId, userUpdateRequest);
+            Response response = await _userService.UpdateUser(userId, userUpdateRequest);
             return response;
         }
 
         [HttpPut]
         [Route("api/{controller}/blockuser/{userId}")]
         [Authorize]
-        public async Task<Response.Response> BlockUser([FromRoute] int userId)
+        public async Task<Response> BlockUser([FromRoute] int userId)
         {
-            Response.Response response = await _userService.BlockUser(userId);
+            Response response = await _userService.BlockUser(userId);
             return response;
         }
 
         [HttpPut]
         [Route("api/{controller}/unblockuser/{userId}")]
         [Authorize]
-        public async Task<Response.Response> UnblockUser([FromRoute] int userId)
+        public async Task<Response> UnblockUser([FromRoute] int userId)
         {
-            Response.Response response = await _userService.UnblockUser(userId);
+            Response response = await _userService.UnblockUser(userId);
             return response;
         }
         #endregion
@@ -69,9 +69,9 @@ namespace API.Controllers
         #region POST Methods
         [HttpPost]
         [Route("api/{controller}/adduser")]
-        public async Task<Response.Response> AddUser([FromBody] UserRequest userRequest)
+        public async Task<Response> AddUser([FromBody] UserRequest userRequest)
         {
-            Response.Response response = await _userService.AddUser(userRequest);
+            Response response = await _userService.AddUser(userRequest);
             return response;
         }
         #endregion

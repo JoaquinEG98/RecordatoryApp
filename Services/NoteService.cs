@@ -1,12 +1,13 @@
-﻿using API.DTO;
-using API.Interfaces;
-using API.Request;
-using Helpers;
+﻿using Helpers;
+using Interfaces;
 using Models;
+using Models.DTO;
+using Models.Request;
+using Models.Response;
 
 namespace API.Services
 {
-    public class NoteService : INoteService
+    public class NoteService : INote
     {
         #region Dependency injection
         private readonly Library.Note _noteService;
@@ -20,7 +21,7 @@ namespace API.Services
         #endregion
 
         #region Methods
-        public async Task<Response.Response> AddNote(NoteRequest noteRequest)
+        public async Task<Response> AddNote(NoteRequest noteRequest)
         {
             try
             {
@@ -38,29 +39,29 @@ namespace API.Services
 
                 await _noteService.Add(note);
 
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.OK, "Nota creada con éxito!");
+                return Response.FillObject(null!, System.Net.HttpStatusCode.OK, "Nota creada con éxito!");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        public async Task<Response.Response> GetNote(int noteId)
+        public async Task<Response> GetNote(int noteId)
         {
             try
             {
                 Note note = await _noteService.Get(noteId);
 
-                return Response.Response.FillObject(NoteDTO.FillObject(note), System.Net.HttpStatusCode.OK, "OK");
+                return Response.FillObject(NoteDTO.FillObject(note), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        public async Task<Response.Response> GetNotes(int userId)
+        public async Task<Response> GetNotes(int userId)
         {
             try
             {
@@ -74,15 +75,15 @@ namespace API.Services
                     notesDTO.Add(NoteDTO.FillObject(note));
                 }    
 
-                return Response.Response.FillObject(notesDTO, System.Net.HttpStatusCode.OK, "OK");
+                return Response.FillObject(notesDTO, System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        public async Task<Response.Response> UpdateNote(int noteId, NoteRequest note)
+        public async Task<Response> UpdateNote(int noteId, NoteRequest note)
         {
             try
             {
@@ -92,15 +93,15 @@ namespace API.Services
                 noteGet.FinishDate = note.FinishDate;
 
                 Note noteUpdate = await _noteService.Update(noteGet);
-                return Response.Response.FillObject(NoteDTO.FillObject(noteUpdate), System.Net.HttpStatusCode.OK, "OK");
+                return Response.FillObject(NoteDTO.FillObject(noteUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        public async Task<Response.Response> FinishNote(int noteId)
+        public async Task<Response> FinishNote(int noteId)
         {
             try
             {
@@ -109,15 +110,15 @@ namespace API.Services
                 noteGet.Finished = true;
 
                 Note noteUpdate = await _noteService.Update(noteGet);
-                return Response.Response.FillObject(NoteDTO.FillObject(noteUpdate), System.Net.HttpStatusCode.OK, "OK");
+                return Response.FillObject(NoteDTO.FillObject(noteUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        public async Task<Response.Response> UnfinishNote(int noteId)
+        public async Task<Response> UnfinishNote(int noteId)
         {
             try
             {
@@ -126,11 +127,11 @@ namespace API.Services
                 noteGet.Finished = false;
 
                 Note noteUpdate = await _noteService.Update(noteGet);
-                return Response.Response.FillObject(NoteDTO.FillObject(noteUpdate), System.Net.HttpStatusCode.OK, "OK");
+                return Response.FillObject(NoteDTO.FillObject(noteUpdate), System.Net.HttpStatusCode.OK, "OK");
             }
             catch (Exception ex)
             {
-                return Response.Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
+                return Response.FillObject(null!, System.Net.HttpStatusCode.InternalServerError, ex.Message);
             }
         }
         #endregion
