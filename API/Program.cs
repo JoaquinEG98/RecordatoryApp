@@ -33,7 +33,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ScarletContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("connectionstring"))
+    options.UseSqlServer(builder.Configuration.GetConnectionString("connectionstring")!)
            .UseLazyLoadingProxies();
     //options.UseNpgsql(builder.Configuration.GetConnectionString("connectionstring"))
     //       .UseLazyLoadingProxies();
